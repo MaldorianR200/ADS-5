@@ -1,9 +1,9 @@
 // Copyright 2021 NNTU-CS
 #include <string>
-#include <map>
-#include "tstack.h"
 #include <stack>
 #include <algorithm>
+#include "tstack.h"
+
 
 bool isOperator(char ch) {
   if (ch == '+' || ch == '-' || ch == '*' || ch == '/')
