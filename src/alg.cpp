@@ -28,6 +28,7 @@ std::string infx2pstfx(std::string inf) {
       while (!stk.empty() && precedence(stk.top()) >= precedence(inf[i]) {
         postfix += stk.top();
         stk.pop();
+        postfix.push_back(' ');
       }
       stk.push(infix[i]);
     } else if (infix[i] == '(') {
@@ -43,12 +44,13 @@ std::string infx2pstfx(std::string inf) {
     }
   }
   while (!stk.empty()) {
+    postfix.push_back(' ');
     posfix += stk.top();
     stk.pop();
   }
   return postfix;
 }
-std::string evalute(char op, int operand1, int operand2) {
+std::string eva(char op, int operand1, int operand2) {
   switch(op) {
     case '+': return std::to_string(operand1 + operand2);
     case '-': return std::to_string(operand1 - operand2);
@@ -58,14 +60,6 @@ std::string evalute(char op, int operand1, int operand2) {
   return 0;
 }
 
-std::string evaluate(char op, int operand1, int operand2) {
-  switch (op) {
-    case '+': return std::to_string(operand1 + operand2);
-    case '-': return std::to_string(operand1 - operand2);
-    case '*': return std::to_string(operand1 * operand2);
-    case '/': return std::to_string(operand1 / operand2);
-    }
-}
              
 int eval(std::string pref) {
   std::stack<std::string> stk;
@@ -74,17 +68,22 @@ int eval(std::string pref) {
   std::string operator_1;
   for (int i = 0; i < pref.size(); i++) {
     if (isOperator(pref[i])) {
+      if (stk.top() == " ") {
+        stk.pop();
+      }
       if (stk.top() == "0") {
         while(!stk.empty() && stk.top() != pust) {
           operand_2 += stk.top();
           stk.pop();
         }
-        std::reverse(operand_2.begin(), operand_2.end());
+        if (operand_2[0] == '0')
+          std::reverse(operand_2.begin(), operand_2.end());
       } else {
         while (!stk.empty() && stk.top() != pust) {
           operand_2 += stk.top();
           stk.pop();
-          std::reverse(operand_2.begin(), operand_2.end());
+          if (operand_2[0] == '0')
+            std::reverse(operand_2.begin(), operand_2.end());
         }
         if (stk.top() == " ") {
           stk.pop();
@@ -93,16 +92,18 @@ int eval(std::string pref) {
               operand_1 += stk.top();
               stk.pop();
             }
-            std::reverse(operand_1.begin(), operand_1.end());
+            if (operand_1[0] == '0')
+              std::reverse(operand_1.begin(), operand_1.end());
           } else {
             while (!stk.empty() && stk.top() != pust) {
               operand_1 += stk.top();
               stk.pop();
-              std::reverse(operand_1.begin(), operand_1.end());
+              if (operand_1[0] == '0')
+                std::reverse(operand_1.begin(), operand_1.end());
             }
           }
         }
-        std::string result = evalute(pref[i], std::stoi(operand_1), std::stoi(operand_2));
+        std::string res = eva(pref[i], std::stoi(operand_1), std::stoi(operand_2));
         stk.push(result);
       }
     } else {
