@@ -35,6 +35,7 @@ std::string infx2pstfx(std::string inf) {
       stk.push(inf[i]);
     } else if (inf[i] == ')') {
       while (!stk.empty() && stk.top() != '(') {
+        prefix.push_back(' ');
         prefix += stk.top();
         stk.pop();
       }
