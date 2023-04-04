@@ -21,34 +21,34 @@ int precedence(char ch) {
 
 std::string infx2pstfx(std::string inf) {
   std::stack<char> stk;
-  std::string postfix;
+  std::string prefix;
   for (int i = 0; i < inf.size(); i++) {
     if (isOperator(inf[i])) {
-      postfix.push_back(' ');
-      while (!stk.empty() && precedence(stk.top()) >= precedence(inf[i]) {
-        postfix += stk.top();
+      prefix.push_back(' ');
+      while (!stk.empty() && precedence(stk.top()) >= precedence(inf[i])) {
+        prefix += stk.top();
         stk.pop();
-        postfix.push_back(' ');
+        prefix.push_back(' ');
       }
       stk.push(inf[i]);
     } else if (inf[i] == '(') {
       stk.push(inf[i]);
     } else if (inf[i] == ')') {
       while (!stk.empty() && stk.top() != '(') {
-        postfix += stk.top();
+        prefix += stk.top();
         stk.pop();
       }
       stk.pop();
     } else {
-      posfix += infix[i];
+      prefix += infix[i];
     }
   }
   while (!stk.empty()) {
-    postfix.push_back(' ');
-    posfix += stk.top();
+    prefix.push_back(' ');
+    prefix += stk.top();
     stk.pop();
   }
-  return postfix;
+  return prefix;
 }
 std::string eva(char op, int operand1, int operand2) {
   switch (op) {
@@ -78,7 +78,7 @@ int eval(std::string pref) {
           std::reverse(opera_2.begin(), opera_2.end());
       } else {
         while (!stk.empty() && stk.top() != pust) {
-          operand_2 += stk.top();
+          opera_2 += stk.top();
           stk.pop();
           if (opera_2[0] == '0')
             std::reverse(opera_2.begin(), opera_2.end());
@@ -102,7 +102,7 @@ int eval(std::string pref) {
           }
         }
         std::string res = eva(pref[i], std::stoi(opera_1), std::stoi(opera_2));
-        stk.push(result);
+        stk.push(res);
       }
     } else {
       if (pref[i] == ' ')
