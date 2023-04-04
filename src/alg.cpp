@@ -40,7 +40,7 @@ std::string infx2pstfx(std::string inf) {
       }
       stk.pop();
     } else {
-      prefix += infix[i];
+      prefix += inf[i];
     }
   }
   while (!stk.empty()) {
