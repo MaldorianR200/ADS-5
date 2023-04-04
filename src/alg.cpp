@@ -30,10 +30,10 @@ std::string infx2pstfx(std::string inf) {
         stk.pop();
         postfix.push_back(' ');
       }
-      stk.push(infix[i]);
-    } else if (infix[i] == '(') {
-      stk.push(infix[i]);
-    } else if (infix[i] == ')') {
+      stk.push(inf[i]);
+    } else if (inf[i] == '(') {
+      stk.push(inf[i]);
+    } else if (inf[i] == ')') {
       while (!stk.empty() && stk.top() != '(') {
         postfix += stk.top();
         stk.pop();
@@ -51,59 +51,57 @@ std::string infx2pstfx(std::string inf) {
   return postfix;
 }
 std::string eva(char op, int operand1, int operand2) {
-  switch(op) {
+  switch (op) {
     case '+': return std::to_string(operand1 + operand2);
     case '-': return std::to_string(operand1 - operand2);
     case '*': return std::to_string(operand1 * operand2);
     case '/': return std::to_string(operand1 / operand2)
   }
   return 0;
-}
-
-             
+}          
 int eval(std::string pref) {
   std::stack<std::string> stk;
   std::string pust = " ";
-  std::string operand_2;
-  std::string operator_1;
+  std::string opera_2;
+  std::string opera_1;
   for (int i = 0; i < pref.size(); i++) {
     if (isOperator(pref[i])) {
       if (stk.top() == " ") {
         stk.pop();
       }
       if (stk.top() == "0") {
-        while(!stk.empty() && stk.top() != pust) {
-          operand_2 += stk.top();
+        while (!stk.empty() && stk.top() != pust) {
+          opera_2 += stk.top();
           stk.pop();
         }
-        if (operand_2[0] == '0')
-          std::reverse(operand_2.begin(), operand_2.end());
+        if (opera_2[0] == '0')
+          std::reverse(opera_2.begin(), opera_2.end());
       } else {
         while (!stk.empty() && stk.top() != pust) {
           operand_2 += stk.top();
           stk.pop();
-          if (operand_2[0] == '0')
-            std::reverse(operand_2.begin(), operand_2.end());
+          if (opera_2[0] == '0')
+            std::reverse(opera_2.begin(), opera_2.end());
         }
         if (stk.top() == " ") {
           stk.pop();
           if (stk.top() == "0") {
             while (!stk.empty() && stk.top() != pust) {
-              operand_1 += stk.top();
+              opera_1 += stk.top();
               stk.pop();
             }
-            if (operand_1[0] == '0')
-              std::reverse(operand_1.begin(), operand_1.end());
+            if (opera_1[0] == '0')
+              std::reverse(opera_1.begin(), opera_1.end());
           } else {
             while (!stk.empty() && stk.top() != pust) {
-              operand_1 += stk.top();
+              opera_1 += stk.top();
               stk.pop();
-              if (operand_1[0] == '0')
-                std::reverse(operand_1.begin(), operand_1.end());
+              if (opera_1[0] == '0')
+                std::reverse(opera_1.begin(), opera_1.end());
             }
           }
         }
-        std::string res = eva(pref[i], std::stoi(operand_1), std::stoi(operand_2));
+        std::string res = eva(pref[i], std::stoi(opera_1), std::stoi(opera_2));
         stk.push(result);
       }
     } else {
@@ -112,8 +110,8 @@ int eval(std::string pref) {
       else
         stk.push(std::to_string(pref[i] - '0'));
     }
-    operand_1 = " ";
-    operand_2 = " ";
+    opera_1 = " ";
+    opera_2 = " ";
   }
   return std::stoi(stk.top());
 }
